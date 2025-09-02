@@ -16,9 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-app.get('/',(req,res)=>{
-    res.send("Hello from Faraj");
-})
+import userRoutes from './routes/userRoutes.js'
+app.use('/api/v1/user',userRoutes);
 
 const PORT=process.env.PORT || 3001
 
