@@ -12,8 +12,8 @@ dotenv.config();
 connectDb();
 
 // middlewares
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 //routes
 app.get('/',(req,res)=>{
