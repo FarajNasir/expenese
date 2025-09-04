@@ -11,12 +11,12 @@ const Register = () => {
     const submitHandler=async(values)=>{
         try {
             setLoading(true)
-            await axios.post('/api/v1/user/register',values)
-            message.success("Registration successful")
+            await axios.post('/api/v1/user/register',values);
+            message.success("Registration successful");
             setLoading(false)
             navigate('/login')
         } catch (error) {
-            setLoading(false)
+            setLoading(false);
             message.error("Invallid username or password");
             
         }
