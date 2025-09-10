@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Form, Input ,message} from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -16,12 +16,19 @@ const Login = () => {
            message.success("Login success");
            setLoading(false);
            navigate('/');
-           localStorage.setItem('user',JSON.stringify({...data,Password:""}))
+           localStorage.setItem('user',JSON.stringify({...data.user,Password:""}))
         } catch (error) {
             setLoading(false)
            message.error(error.response?.data?.message || "Something went wrong");
         }
     }
+
+    // prevent for login 
+    useEffect(() => {
+      if(localStorage.getItem('user')){
+        navigate('/')
+      }
+    }, [navigate])
     return (
         <>
             <div className='register'>
@@ -36,7 +43,7 @@ const Login = () => {
                     </Form.Item>
                     <div className="d-flex">
                         <Link to='/register'>Not a user ? Click Here to register</Link>
-                        <button className='btn btn-primary'>Login</button>
+                        <button className='btn btn-primary' type='submit'>Login</button>
                     </div>
                 </Form>
             </div></>

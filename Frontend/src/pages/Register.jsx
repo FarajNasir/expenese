@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import axios from 'axios'
 
 import {Form,Input,message} from 'antd'
@@ -8,19 +8,28 @@ import Spinner from '../components/Spinner'
 const Register = () => {
     const [loading,setLoading]=useState(false)
     const navigate=useNavigate()
-    const submitHandler=async(values)=>{
-        try {
-            setLoading(true)
-            await axios.post('/api/v1/user/register',values);
-            message.success("Registration successful");
-            setLoading(false)
-            navigate('/login')
-        } catch (error) {
-            setLoading(false);
-            message.error("Invallid username or password");
-            
-        }
-    }
+  const submitHandler = async (values) => {
+  console.log(values); // check the object
+  try {
+    setLoading(true);
+    const res = await axios.post('/api/v1/user/register', values);
+    console.log(res.data);
+    message.success("Registration successful");
+    setLoading(false);
+    navigate('/login');
+  } catch (error) {
+    setLoading(false);
+    console.error(error);
+    message.error(error.response?.data?.message || 'Registration failed');
+  }
+};
+// prevent for login 
+useEffect(() => {
+  if(localStorage.getItem('user')){
+    navigate('/')
+  }
+}, [navigate])
+
   return (
    <>
     <div className='register'>
@@ -38,7 +47,7 @@ const Register = () => {
         </Form.Item>
         <div className="d-flex">
             <Link to='/login'>Already Registered ? click here to login</Link>
-            <button className='btn btn-primary'>Register</button>
+            <button className='btn btn-primary' type='submit'>Register</button>
         </div>
        </Form>
     </div></>
